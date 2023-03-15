@@ -12,13 +12,15 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-
+       
     - name: Download Image
       run: |
         mkdir -p image
         curl -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36 Edge/16.16299" -L -o image/$(date +"%Y%m%d").jpg https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=en-US
         git config --global user.name "${{ secrets.USERNAME }}"
         git config --global user.email "${{ secrets.EMAIL }}"
+        
+        git branch dev || echo "dev branch already exists"
         git checkout dev
         git add image/$(date +"%Y%m%d").jpg
         git commit -m "Update image - $(date +"%Y-%m-%d")"
