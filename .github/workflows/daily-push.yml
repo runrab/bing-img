@@ -28,7 +28,7 @@ jobs:
       run: |
         git config user.name "${{ github.username }}"
         git config user.email "${{ github.email }}"
-        echo "https://raw.githubusercontent.com/${{ github.repo }}/main/image/$(date +"%Y%m%d").jpg" >> url.txt
+        echo "https://raw.githubusercontent.com/${{ secrets.username }}/${{ secrets.repo }}/main/image/$(date +"%Y%m%d").jpg" >> url.txt
         if [ `cat url.txt | wc -l` -gt 366 ]; then sed -i '1d' url.txt; fi
         git add url.txt
         git commit -m "Update URL - $(date +"%Y-%m-%d")"
