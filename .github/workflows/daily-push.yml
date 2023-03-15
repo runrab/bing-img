@@ -1,39 +1,37 @@
-name: Bing Wallpaper Downloader
+name: Download Bing Wallpaper
 
 on:
   schedule:
-    - cron: '0 0 * * *' # 每天 UTC 00:00 执行，可以自行修改定时器
+    - cron: '0 0 * * *'
   push:
     branches: [ main ]
-
+    
 jobs:
-  download_wallpaper:
+  download:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-    - name: Create images directory
-      run: mkdir -p images
-    - name: Get Bing wallpaper URL
-      id: get_bing_url
-      run: |
-        url="https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=en-US"
-        response=$(curl -s "$url")
-        url_suffix=$(echo $response | jq -r '.images[0].url')
-        echo "::set-output name=url_suffix::$url_suffix"
-    - name: Download wallpaper
-      run: |
-        url_prefix="https://www.bing.com"
-        url_suffix="${{ steps.get_bing_url.outputs.url_suffix }}"
-        curl -sSL -o "images/$(date +%Y-%m-%d).jpg" -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36 Edge/16.16299' "$url_prefix$url_suffix"
-    - name: Configure git
-      run: |
-        git config --global user.name "runrab"
-        git config --global user.email ${{ secrets.EMAIL }}
-    - name: Commit and push changes
-      uses: stefanzweifel/git-auto-commit-action@v4.7.0
-      with:
-        commit_message: "Add Bing wallpaper of $(date +%Y-%m-%d)"
-        commit_options: "--author='runrab <>'"
-        file_pattern: 'images/*'
-        github_token: ${{ secrets.TOKEN }}
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          ref: 'main'
+      
+      - name: Create Images Directory
+        run: |
+          mkdir -p images
+
+      - name: Download Bing Wallpaper
+        id: bing
+        uses: kelyvin/download-bing-wallpaper-action@v1.0.0
+
+      - name: Commit and Push changes
+        uses: stefanzweifel/git-auto-commit-action@v4.7.0
+        with:
+          commit_message: 'Update wallpaper image'
+          commit_options: "--author='runrab <>'"
+          branch: 'main'
+          file_pattern: 'images/*'
+          file_pattern_exclude: '!.gitignore'
+          commit_user_name: 'runrab'
+          commit_user_email: ${{ secrets.EMAIL }}
+          github_token: ${{ secrets.ACCESS_TOKEN }}
+
