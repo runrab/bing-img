@@ -3,53 +3,33 @@ name: Daily Push
 on:
   schedule:
     - cron: '0 0 * * *' # 每天0点推送
-  push:
-    branches: [ main ]
-  workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Download Image Before
-      run: |
-        mkdir -p ~/.ssh/
-        echo ${{ secrets.SSH_PRIVATE_KEY }} | base64 -d > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-    - name: Add SSH public key to agent
-      run: |
-        echo ${{ secrets.SSH_PUBLIC_KEY }} | base64 -d > ~/.ssh/id_rsa.pub
-        ssh-add ~/.ssh/id_rsa
-
-    - name: Download Image Before
-      run: |
-        mkdir -p image
-      continue-on-error: true # 忽略已存在的目录
-
     - name: Download Image
       run: |
+        git checkout dev
         mkdir -p image
         curl -L -o image/$(date +"%Y%m%d").jpg https://source.unsplash.com/1920x1080/?landscape
-        git config --global user.name "${{ secrets.USERNAME }}"
-        git config --global user.email "${{ secrets.EMAIL }}"
-        ls -al image/
-        git remote set-branch --add origin dev
-        git remote set-url origin git@github.com:runrab/bing-img.git
-        git checkout dev || git checkout -b dev
+        git config user.name "${{ github.username }}"
+        git config user.email "${{ github.email }}"
         git add image/$(date +"%Y%m%d").jpg
         git commit -m "Update image - $(date +"%Y-%m-%d")"
-        git push origin dev
-        
+        git push origin HEAD
+
     - name: Update URL
       run: |
-        git remote set-branch --add origin main
-        git remote set-url origin git@github.com:runrab/bing-img.git
         git checkout main
-        echo "https://raw.githubusercontent.com/runrab/bing-img/dev/image/$(date +"%Y%m%d").jpg" >> url.txt
+        echo "https://raw.githubusercontent.com/${{ github.repo }}/dev/image/$(date +"%Y%m%d").jpg" >> url.txt
         if [ `cat url.txt | wc -l` -gt 366 ]; then sed -i '1d' url.txt; fi
         git add url.txt
         git commit -m "Update URL - $(date +"%Y-%m-%d")"
-        git push
-
+        git push origin HEAD
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
