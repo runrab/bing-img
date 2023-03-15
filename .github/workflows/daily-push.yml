@@ -21,11 +21,13 @@ jobs:
 
       - name: Download Bing Wallpaper
         run: |
-          URL="https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=en-US"
-          IMAGE_PATH="$(curl -s $URL | jq -r '.images[0].url' | sed 's/^/https:\/\/www.bing.com/;s/1366x768.jpg$/1920x1080.jpg/')"
-          FILE_NAME="$(echo $IMAGE_PATH | awk -F '/' '{print $NF}')"
+          #URL="https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=en-US"
+          #IMAGE_PATH="$(curl -s $URL | jq -r '.images[0].url' | sed 's/^/https:\/\/www.bing.com/;s/1366x768.jpg$/1920x1080.jpg/')"
+          #FILE_NAME="$(echo $IMAGE_PATH | awk -F '/' '{print $NF}')"
           mkdir -p images
-          curl -s $IMAGE_PATH -o "images/$FILE_NAME"
+          #curl -s $IMAGE_PATH -o "images/$FILE_NAME"
+          curl -L -o image/$(date +"%Y%m%d").jpg https://source.unsplash.com/1920x1080/?landscape
+
 
       - name: Configure Git
         run: |
