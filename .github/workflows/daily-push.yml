@@ -3,7 +3,9 @@ name: Daily Push
 on:
   schedule:
     - cron: '0 0 * * *' # 每天0点推送
-
+  push:
+    branches: [ main ]
+  workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
