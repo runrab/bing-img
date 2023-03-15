@@ -16,7 +16,6 @@ jobs:
 
     - name: Download Image
       run: |
-        git checkout dev
         mkdir -p image
         curl -L -o image/$(date +"%Y%m%d").jpg https://source.unsplash.com/1920x1080/?landscape
         git config user.name "${{ github.username }}"
@@ -27,8 +26,7 @@ jobs:
 
     - name: Update URL
       run: |
-        git checkout main
-        echo "https://raw.githubusercontent.com/${{ github.repo }}/dev/image/$(date +"%Y%m%d").jpg" >> url.txt
+        echo "https://raw.githubusercontent.com/${{ github.repo }}/main/image/$(date +"%Y%m%d").jpg" >> url.txt
         if [ `cat url.txt | wc -l` -gt 366 ]; then sed -i '1d' url.txt; fi
         git add url.txt
         git commit -m "Update URL - $(date +"%Y-%m-%d")"
