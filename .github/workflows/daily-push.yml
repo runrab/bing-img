@@ -5,6 +5,7 @@ on:
     - cron: '0 0 * * *'
   push:
     branches: [ main ]
+permissions:write-all    
 
 jobs:
   download:
