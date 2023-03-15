@@ -25,12 +25,12 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.token }}
 
-    - name: Update URL
-      run: |
-        echo "https://raw.githubusercontent.com/${{ secrets.username }}/${{ secrets.repo }}/main/image/$(date +"%Y%m%d").jpg" >> url.txt
-        if [ `cat url.txt | wc -l` -gt 366 ]; then sed -i '1d' url.txt; fi
-        git add url.txt
-        git commit -m "Update URL - $(date +"%Y-%m-%d")"
-        git push origin HEAD
-      env:
-        GITHUB_TOKEN: ${{ secrets.token }}
+#     - name: Update URL
+#       run: |
+#         echo "https://raw.githubusercontent.com/${{ secrets.username }}/${{ secrets.repo }}/main/image/$(date +"%Y%m%d").jpg" >> url.txt
+#         if [ `cat url.txt | wc -l` -gt 366 ]; then sed -i '1d' url.txt; fi
+#         git add url.txt
+#         git commit -m "Update URL - $(date +"%Y-%m-%d")"
+#         git push origin HEAD
+#       env:
+#         GITHUB_TOKEN: ${{ secrets.token }}
