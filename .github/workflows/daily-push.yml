@@ -33,5 +33,5 @@ jobs:
           file_pattern_exclude: '!.gitignore'
           commit_user_name: 'runrab'
           commit_user_email: ${{ secrets.EMAIL }}
-          github_token: ${{ secrets.ACCESS_TOKEN }}
+          github_token: ${{ secrets.TOKEN }}
 
