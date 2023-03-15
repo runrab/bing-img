@@ -17,6 +17,7 @@ jobs:
       run: |
         mkdir -p image
         curl -L -o image/$(date +"%Y%m%d").jpg https://source.unsplash.com/1920x1080/?landscape
+        git remote add upstream https://runrab@github.com/runrab/bing-img.git
         git config user.name "${{ secrets.username }}"
         git config user.email "${{ secrets.email }}"
         git add image/$(date +"%Y%m%d").jpg
