@@ -5,7 +5,6 @@ on:
     - cron: '0 0 * * *' # 每天0点推送
   push:
     branches: [ main ]
-  workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -23,11 +22,11 @@ jobs:
         git add image/$(date +"%Y%m%d").jpg
         git commit -m "Update image - $(date +"%Y-%m-%d")"
         git push origin HEAD
+      env:
+        GITHUB_TOKEN: ${{ secrets.token }}
 
     - name: Update URL
       run: |
-        git config user.name "${{ github.username }}"
-        git config user.email "${{ github.email }}"
         echo "https://raw.githubusercontent.com/${{ secrets.username }}/${{ secrets.repo }}/main/image/$(date +"%Y%m%d").jpg" >> url.txt
         if [ `cat url.txt | wc -l` -gt 366 ]; then sed -i '1d' url.txt; fi
         git add url.txt
