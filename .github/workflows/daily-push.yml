@@ -35,7 +35,7 @@ jobs:
         git config --global user.name "${{ secrets.USERNAME }}"
         git config --global user.email "${{ secrets.EMAIL }}"
         ls -al image/
-        git remote set-url dev git@github.com:runrab/bing-img.git
+        git remote set-url origin git@github.com:runrab/bing-img.git
         git checkout dev || git checkout -b dev
         git add image/$(date +"%Y%m%d").jpg
         git commit -m "Update image - $(date +"%Y-%m-%d")"
