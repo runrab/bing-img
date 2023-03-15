@@ -18,14 +18,16 @@ jobs:
       run: |
         mkdir -p image
         curl -L -o image/$(date +"%Y%m%d").jpg https://source.unsplash.com/1920x1080/?landscape
-        git config user.name "${{ github.username }}"
-        git config user.email "${{ github.email }}"
+        git config user.name "${{ secrets.username }}"
+        git config user.email "${{ secrets.email }}"
         git add image/$(date +"%Y%m%d").jpg
         git commit -m "Update image - $(date +"%Y-%m-%d")"
         git push origin HEAD
 
     - name: Update URL
       run: |
+        git config user.name "${{ github.username }}"
+        git config user.email "${{ github.email }}"
         echo "https://raw.githubusercontent.com/${{ github.repo }}/main/image/$(date +"%Y%m%d").jpg" >> url.txt
         if [ `cat url.txt | wc -l` -gt 366 ]; then sed -i '1d' url.txt; fi
         git add url.txt
