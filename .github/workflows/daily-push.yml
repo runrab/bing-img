@@ -12,7 +12,12 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-       
+
+    - name: Download Image
+      run: |
+        mkdir -p image
+      continue-on-error: true # 忽略已存在的目录
+
     - name: Download Image
       run: |
         mkdir -p image
@@ -22,6 +27,7 @@ jobs:
         
         git branch dev || echo "dev branch already exists"
         git checkout dev
+        
         git add image/$(date +"%Y%m%d").jpg
         git commit -m "Update image - $(date +"%Y-%m-%d")"
         git push origin dev
