@@ -13,13 +13,20 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
+    - name: Set up Git
+      run: |
+        git config --global user.name "runrab"
+        git config --global user.email "${{ secrets.email }}"
+        echo ${{ secrets.email }}
+
+
     - name: Download Image
       run: |
         mkdir -p image
         curl -L -o image/$(date +"%Y%m%d").jpg https://source.unsplash.com/1920x1080/?landscape
         git remote add upstream https://runrab@github.com/runrab/bing-img.git
-        git config --global user.name "${{ secrets.username }}"
-        git config --global user.email "${{ secrets.email }}"
+        # git config --global user.name "${{ secrets.username }}"
+        # git config --global user.email "${{ secrets.email }}"
         git add image/$(date +"%Y%m%d").jpg
         git commit -m "Update image - $(date +"%Y-%m-%d")"
         git push origin HEAD
