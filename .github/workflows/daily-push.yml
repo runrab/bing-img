@@ -34,4 +34,4 @@ jobs:
         git commit -m "Update URL - $(date +"%Y-%m-%d")"
         git push origin HEAD
       env:
-        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.token }}
