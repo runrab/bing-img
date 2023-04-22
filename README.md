@@ -1,2 +1,2 @@
 # bing-img
-bing日图片
+bing每日图片
