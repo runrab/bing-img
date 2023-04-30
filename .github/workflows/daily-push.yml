@@ -25,6 +25,8 @@ jobs:
           IMAGE_PATH="$(curl -s $URL | jq -r '.images[0].url' | sed 's/^/https:\/\/www.bing.com/;s/1366x768.jpg$/1920x1080.jpg/')"
           #FILE_NAME="$(echo $IMAGE_PATH | awk -F '/' '{print $NF}')"
           FILE_NAME="$(date +"%Y%m%d").jpg"
+          #额外复制一份
+          cp $FILE_NAME lastest.jpg
           mkdir -p images
           curl -s $IMAGE_PATH -o "images/$FILE_NAME"
 
