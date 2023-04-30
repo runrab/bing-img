@@ -40,7 +40,7 @@ jobs:
 
       - name: Commit Changes
         run: |
-          git add url.txt images/*
+          git add images/*
           git commit -m "Update wallpaper bing image"
           git branch -M main
 
