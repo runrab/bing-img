@@ -3,8 +3,9 @@ name: Download Bing Wallpaper
 on:
   schedule:
     - cron: '0 0 * * *'
-  push:
-    branches: [ main ]
+  #推送时触发
+  #push:
+  #  branches: [ main ]
 jobs:
   download:
     runs-on: ubuntu-latest
