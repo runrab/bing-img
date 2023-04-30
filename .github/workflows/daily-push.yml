@@ -26,10 +26,8 @@ jobs:
           #FILE_NAME="$(echo $IMAGE_PATH | awk -F '/' '{print $NF}')"
           FILE_NAME="$(date +"%Y%m%d").jpg"
           mkdir -p images
-          #额外复制一份
-          cp $FILE_NAME lastest.jpg
-          mv lastest.jpg images/
           curl -s $IMAGE_PATH -o "images/$FILE_NAME"
+
 
 
       - name: Configure Git
