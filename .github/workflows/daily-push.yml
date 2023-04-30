@@ -30,6 +30,7 @@ jobs:
           curl -s $IMAGE_PATH -o "images/$FILE_NAME"
           #如果有问题 可能因为cp 实际是(cp -i)的别名 可 ls images/ 看目录下文件 先删除 rm -f lastest.jpg 后再执行这一行
           cp images/$FILE_NAME images/lastest.jpg
+          echo "$IMAGE_PATH\n" >> urt.txt
 
 
       - name: Configure Git
@@ -40,7 +41,7 @@ jobs:
 
       - name: Commit Changes
         run: |
-          git add images/*
+          git add url.txt images/*
           git commit -m "Update wallpaper bing image"
           git branch -M main
 
