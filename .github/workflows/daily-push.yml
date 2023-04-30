@@ -4,8 +4,8 @@ on:
   schedule:
     - cron: '0 0 * * *'
   #推送时触发
-  push:
-    branches: [ main ]
+  #push:
+    #branches: [ main ]
 jobs:
   download:
     runs-on: ubuntu-latest
@@ -28,9 +28,8 @@ jobs:
           FILE_NAME="$(date +"%Y%m%d").jpg"
           mkdir -p images
           curl -s $IMAGE_PATH -o "images/$FILE_NAME"
-          #如果有问题 可能因为cp 实际是(cp -i)的别名 可 ls images/ 看目录下文件 先删除 rm -f lastest.jpg 后再执行这一行
+          #复制文件
           cp images/$FILE_NAME images/lastest.jpg
-          echo "$IMAGE_PATH\n" >> urt.txt
 
 
       - name: Configure Git
